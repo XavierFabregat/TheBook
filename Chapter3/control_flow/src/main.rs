@@ -30,7 +30,7 @@ fn main() {
 
     // Using if in a let statement (ternary operator)
     let condition = true;
-    let number = if condition { 5 } else { 6 }; // number will be 5
+    let _number = if condition { 5 } else { 6 }; // number will be 5
 
     // This will result in a compile error:  mismatched types
     // let number = if condition { 5 } else { "six" };
