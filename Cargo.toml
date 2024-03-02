@@ -1,0 +1,11 @@
+[workspace]
+
+members = [
+  "Chapter1/hello_cargo",
+  "Chapter2/guessing_game",
+  "Chapter3/control_flow",
+  "Chapter3/functions",
+  "Chapter3/variables",
+  "Chapter5/ch5_1",
+
+]
