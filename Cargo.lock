@@ -17,6 +17,10 @@ name = "ch5_2"
 version = "0.1.0"
 
 [[package]]
+name = "ch5_3_methods"
+version = "0.1.0"
+
+[[package]]
 name = "control_flow"
 version = "0.1.0"
 
