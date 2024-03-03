@@ -113,6 +113,10 @@ name = "restaurant"
 version = "0.1.0"
 
 [[package]]
+name = "strings"
+version = "0.1.0"
+
+[[package]]
 name = "variables"
 version = "0.1.0"
 
