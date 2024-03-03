@@ -16,41 +16,60 @@ fn main() {
     println!("{:?}", numbers);
 
     let mean = calc_avg(&numbers);
-    println!("The mean of the list is {mean}.");
+
+    match mean {
+        None => println!("The array is empty."),
+        Some(val) => println!("The mean of the list is {val}."),
+    }
 
     let median = calc_median(&numbers);
-    println!("The median of this list is {median}.");
+    match median {
+        None => println!("The array is empty."),
+        Some(val) => println!("The median of this list is {val}."),
+    };
 
     let mode = calc_mode(&numbers);
-    println!("The mode of this list is {mode}.");
+    match mode {
+        None => println!("The array is empty."),
+        Some(val) => println!("The mode of this list is {val}."),
+    }
 }
 
 // Possible refactors:
 // return Option<i32> to accommodate for empty arrays
 // return a tuple (mean: f32, median: f32, mode: i32) or struct for better syntactic code
 
-fn calc_avg(v: &Vec<i32>) -> f32 {
+fn calc_avg(v: &Vec<i32>) -> Option<f32> {
+    if v.len() == 0 {
+        return None;
+    };
     let mut sum: f32 = 0.0;
     for i in v {
         sum += *i as f32;
     }
-    sum / v.len() as f32
+    Some(sum / v.len() as f32)
 }
 
-fn calc_median(v: &Vec<i32>) -> f32 {
+fn calc_median(v: &Vec<i32>) -> Option<f32> {
+    if v.len() == 0 {
+        return None;
+    };
     let len = v.len();
     if len % 2 == 0 {
         let mid = len / 2;
         let median = (v[mid] + v[mid - 1]) as f32 / 2.0;
-        median
+        Some(median)
     } else {
         let mid = len / 2;
         let median = v[mid] as f32;
-        median
+        Some(median)
     }
 }
 
-fn calc_mode(v: &Vec<i32>) -> i32 {
+fn calc_mode(v: &Vec<i32>) -> Option<i32> {
+    if v.len() == 0 {
+        return None;
+    };
     let mut el_to_return: i32 = 0;
     let mut highest_count: i32 = 0;
     let mut map = HashMap::new();
@@ -67,5 +86,5 @@ fn calc_mode(v: &Vec<i32>) -> i32 {
         }
     }
 
-    el_to_return
+    Some(el_to_return)
 }
