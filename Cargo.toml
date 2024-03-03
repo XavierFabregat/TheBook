@@ -8,5 +8,5 @@ members = [
   "Chapter3/functions",
   "Chapter3/variables",
   "Chapter5/ch5_1", 
-  "Chapter5/ch5_2", "Chapter5/ch5_3_methods", "Chapter6/ch6_1_enum", "Chapter6/ch6_2_match", "Chapter6/ch6_3_if_let",
+  "Chapter5/ch5_2", "Chapter5/ch5_3_methods", "Chapter6/ch6_1_enum", "Chapter6/ch6_2_match", "Chapter6/ch6_3_if_let", "Chapter7/backyard",
 ]
