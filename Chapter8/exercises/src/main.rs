@@ -106,10 +106,7 @@ fn pig_latin_translator(s: &str) -> String {
     let mut result = String::new();
     let first_char = s.chars().next().unwrap();
     let rest = s.chars().skip(1).collect::<String>();
-    let mut is_vowel = false;
-    if vowels.contains(&first_char) {
-        is_vowel = true;
-    }
+    let is_vowel = vowels.contains(&first_char);
     if is_vowel {
         result.push_str(s);
         result.push_str("-hay");
