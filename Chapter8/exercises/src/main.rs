@@ -32,7 +32,17 @@ fn main() {
     match mode {
         None => println!("The array is empty."),
         Some(val) => println!("The mode of this list is {val}."),
-    }
+    };
+
+    // Exercise 2: Convert strings to pig latin. The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in mind the details about UTF-8 encoding!
+
+    let s = "first";
+    let pig_latin = pig_latin_translator(s);
+    println!("The pig latin of {s} is {pig_latin}.");
+
+    let s = "apple";
+    let pig_latin = pig_latin_translator(s);
+    println!("The pig latin of {s} is {pig_latin}.");
 }
 
 // Possible refactors:
@@ -87,4 +97,27 @@ fn calc_mode(v: &Vec<i32>) -> Option<i32> {
     }
 
     Some(el_to_return)
+}
+
+// Exercise 2: Convert strings to pig latin. The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in mind the details about UTF-8 encoding!
+
+fn pig_latin_translator(s: &str) -> String {
+    let vowels = ['a', 'e', 'i', 'o', 'u'];
+    let mut result = String::new();
+    let first_char = s.chars().next().unwrap();
+    let rest = s.chars().skip(1).collect::<String>();
+    let mut is_vowel = false;
+    if vowels.contains(&first_char) {
+        is_vowel = true;
+    }
+    if is_vowel {
+        result.push_str(s);
+        result.push_str("-hay");
+    } else {
+        result.push_str(&rest);
+        result.push('-');
+        result.push(first_char);
+        result.push_str("ay");
+    }
+    result
 }
