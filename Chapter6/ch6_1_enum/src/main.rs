@@ -23,6 +23,9 @@ enum Message {
 impl Message {
     fn call(&self) {
         // method body would be defined here
-        println!("{:?}", self)
+        match self {
+            Message::Write(s) => println!("{}", s),
+            _ => (),
+        }
     }
 }
