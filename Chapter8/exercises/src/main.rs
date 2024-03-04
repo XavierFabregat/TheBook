@@ -1,5 +1,5 @@
 use rand::Rng;
-use std::collections::HashMap;
+use std::{collections::HashMap, io};
 
 fn main() {
     // Exercise 1: Given a list of integers, use a vector and return the mean (the average value),
@@ -38,11 +38,13 @@ fn main() {
 
     let s = "first";
     let pig_latin = pig_latin_translator(s);
-    println!("The pig latin of {s} is {pig_latin}.");
+    println!("\n\nThe pig latin of {s} is {pig_latin}.");
 
     let s = "apple";
     let pig_latin = pig_latin_translator(s);
     println!("The pig latin of {s} is {pig_latin}.");
+
+    add_employee_to_department();
 }
 
 // Possible refactors:
@@ -117,4 +119,105 @@ fn pig_latin_translator(s: &str) -> String {
         result.push_str("ay");
     }
     result
+}
+
+// Exercise 3: Using a hash map and vectors, create a text interface to allow a user to add employee names to a department in a company. For example, “Add Sally to Engineering” or “Add Amir to Sales.” Then let the user retrieve a list of all people in a department or all people in the company by department, sorted alphabetically.
+
+fn add_employee_to_department() {
+    // Lets focus on the first part: ADD employee_name TO department
+    let mut company = HashMap::new();
+
+    println!(
+        "\n\nWelcome to the CLI to manage your employees, please use on of the following commands:"
+    );
+    println!("1. Add employee to department. Syntax: ADD employee_name TO department");
+    println!("2. Retrieve a list of all people in a department. Syntax: LIST department");
+    println!("3. Retrieve a list of all people in the company by department, sorted alphabetically. Syntax: LIST ALL");
+    println!("4. Quit the program. Syntax: QUIT.\n");
+
+    enum Command {
+        ADD(String, String),
+        LIST(String),
+        QUIT,
+    }
+    loop {
+        println!("Please enter a command:\n");
+        let mut command_input = String::new();
+        io::stdin()
+            .read_line(&mut command_input)
+            .expect("Failed to read command.");
+
+        let command_words: Vec<&str> = command_input.trim().split_whitespace().collect();
+
+        if command_words.is_empty() {
+            println!("\nPlease enter a valid command.\n");
+            continue;
+        }
+
+        let command = match command_words[0].to_uppercase().as_str() {
+            "ADD" if command_words.len() >= 3 => {
+                let employee_name = command_words[1];
+                let department = command_words[3];
+                Command::ADD(String::from(employee_name), String::from(department))
+            }
+            "LIST" if command_words.len() == 2 => {
+                let department = command_words[1];
+                if department.is_empty() {
+                    println!("Please enter a valid department.");
+                    continue;
+                }
+                Command::LIST(String::from(department))
+            }
+            "QUIT" if command_words.len() == 1 => Command::QUIT,
+            _ => {
+                println!("Please enter a valid command.\n");
+                continue;
+            }
+        };
+
+        match command {
+            Command::ADD(employee_name, department) => {
+                println!("Added {} to {} successfully.\n", employee_name, department);
+                let curr_empolyees = company.entry(department).or_insert(Vec::new());
+                curr_empolyees.push(employee_name);
+                curr_empolyees.sort();
+            }
+            Command::LIST(department) => {
+                if department.to_string() == "ALL" {
+                    if company.is_empty() {
+                        println!("No employees added to the company yet.\n");
+                        continue;
+                    }
+                    for (dept, employee_list) in &company {
+                        println!("The employees in the department of {} are", &dept);
+                        // We cannot borrow the employee_list as mutable
+                        // since we are borrowing the company as immutable
+                        // So if we want it sorted, we need to copy it in a new vector (not optimal)
+                        let sorted_lit = employee_list.clone();
+                        // we use the iter method to avoid the overhead of cloning the vector
+                        for employee in sorted_lit.iter() {
+                            println!("{employee}");
+                        }
+                        println!();
+                    }
+                } else {
+                    let employees_of_dept = company.get(&department);
+                    match employees_of_dept {
+                        None => println!("No employees added to {} yet.", &department),
+                        Some(val) => {
+                            println!("The employees at the department of {} are:", &department);
+                            for employee in val.iter() {
+                                println!("{}", employee);
+                            }
+                            println!();
+                        }
+                    }
+                }
+            }
+            Command::QUIT => {
+                println!("Exiting program.");
+                break;
+            }
+        }
+    }
 }
