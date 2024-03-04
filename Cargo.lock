@@ -41,6 +41,10 @@ name = "ch9_1"
 version = "0.1.0"
 
 [[package]]
+name = "ch9_2"
+version = "0.1.0"
+
+[[package]]
 name = "control_flow"
 version = "0.1.0"
 
