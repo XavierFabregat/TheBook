@@ -2,7 +2,7 @@
 resolver = "2"
 
 members = [
-  "Chapter1/hello_cargo",
+  "Chapter1/hello_cargo", "Chapter10/generics",
   "Chapter2/guessing_game",
   "Chapter3/control_flow",
   "Chapter3/functions",
